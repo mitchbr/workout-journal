@@ -1,13 +1,13 @@
 export const state = () => ({ 
   workoutSchedule: [
-    {"date": "Monday", "activities": []}, 
-    {"date": "Tuesday", "activities": []}, 
-    {"date": "Wednesday", "activities": []}, 
-    {"date": "Thursday", "activities": []}, 
-    {"date": "Friday", "activities": []}, 
-    {"date": "Saturday", "activities": []}, 
-    {"date": "Sunday", "activities": []}],
-  selectedDate: "",
+    {"activities": [{"title": "Lift"}]}, 
+    {"activities": []}, 
+    {"activities": []}, 
+    {"activities": []}, 
+    {"activities": []}, 
+    {"activities": []}, 
+    {"activities": []}],
+  selectedDate: -1,
 })
 
 export const mutations = {

@@ -1,21 +1,29 @@
 <template>
   <div>
     <ol>
-      <li v-for="workoutDay in $store.state.workoutSchedule" :key="workoutDay.date" class="schedule-day">
+      <li v-for="dateOffset in 7" :key="dateOffset" class="schedule-day">
         <div class="schedule-title">
-          {{ workoutDay.date }}
-          <v-btn @click="changeAddForm(`${ workoutDay.date }`)">Add</v-btn>
+          <v-row align="center" justify="space-between">
+            <v-col cols="auto">
+              <div class="text-h5">
+                {{ dateToDisplay(calcDate(props.startDate, dateOffset-1)) }}
+              </div>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn density="compact" size="x-small" @click="changeAddForm(dateOffset)">Add</v-btn>
+            </v-col>
+          </v-row>
         </div>
-          <ul class="schedule-activities__list">
-            <li v-if="workoutDay.activities.length === 0 && workoutDay.date !== $store.state.selectedDate">
+          <ul class="schedule-activities-list">
+            <li v-if="$store.state.workoutSchedule[dateOffset-1].activities.length === 0 && dateOffset !== $store.state.selectedDate">
               <div class="rest">
                 <ActivityTile />
               </div>
             </li>
-            <li v-for="(activity, index) in workoutDay.activities" :key="index">
+            <li v-for="(activity, index) in $store.state.workoutSchedule[dateOffset-1].activities" :key="index">
               <ActivityTile :activity=activity />
             </li>
-            <li v-if="workoutDay.date === $store.state.selectedDate">
+            <li v-if="dateOffset === $store.state.selectedDate">
               <AddActivity />
             </li>
         </ul>
@@ -24,14 +32,32 @@
   </div>
 </template>
 
+<script lang="ts" setup>
+  const props = defineProps({
+    startDate: { type: Date },
+  })
+</script>
+
+
 <script lang="ts">
   export default {
     data () {
       return {}
     },
     methods: {
-      changeAddForm(currentDay: string){
-        this.$store.commit('setSelectedDate', currentDay)
+      changeAddForm(currentDay: number){
+        (this as any).$store.commit('setSelectedDate', currentDay)
+      },
+      dateToDisplay(value: Date) {
+        const days = [
+          "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ]
+        return `${days[value.getDay()]} ${value.getMonth()+1}/${value.getDate()}`
+      },
+      calcDate(startDate: Date, offset: number) {
+        let dateVal = new Date(startDate)
+        dateVal.setDate(startDate.getDate() + offset)
+        return dateVal
       }
     }
   }
@@ -46,10 +72,10 @@
 
   .schedule-title {
     border-bottom: 3px solid grey;
-    display: flex;
+    padding: 0.5rem;
   }
 
-  .schedule-activities__list {
+  .schedule-activities-list {
     list-style-type: none;
     margin: 0;
     padding: 0;

@@ -1,10 +1,20 @@
 <template>
   <div class="add-workout">
-    <v-select
-      v-model="selectedWorkout"
-      label="Workout Type"
-      :items="['Lift', 'Climb', 'Run', 'Other']"
-    ></v-select>
+    <v-row align="center" justify="start">
+      <v-col cols="auto">
+          <v-select
+          v-model="selectedWorkout"
+          label="Workout Type"
+          :items="['Lift', 'Climb', 'Run', 'Other']"
+        ></v-select>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn @click="changeAddForm(-1)">Cancel</v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn size="small" @click="addWorkout()">Add</v-btn>
+      </v-col>
+    </v-row>
     <div class="add-workout-details">
       <ol>
         <li v-if="selectedWorkout === 'Lift'">
@@ -23,7 +33,7 @@
               <v-text-field label="Reps"></v-text-field>
             </v-responsive>
             r
-            <v-btn>Add</v-btn>
+            <v-btn size="small">Add</v-btn>
           </div>
         </li>
         <li v-if="selectedWorkout === 'Climb'">
@@ -63,10 +73,6 @@
         </li>
       </ol>
     </div>
-    <div class="add-workout-controls">
-      <v-btn @click="changeAddForm('')">Cancel</v-btn>
-      <v-btn @click="addWorkout()">Add</v-btn>
-    </div>
   </div>
 </template>
 
@@ -79,15 +85,16 @@
     },
     methods: {
       addWorkout () {
-        // TODO: Validate workout isn't empty
-        this.$store.commit(
-          'setWorkoutSchedule',
-          {"title": this.selectedWorkout, "date": this.$store.state.selectedDate}
-        )
-        this.$store.commit('setSelectedDate', "")
+        if ((this as any).selectedWorkout !== "") {
+          (this as any).$store.commit(
+            'setWorkoutSchedule',
+            {"title": (this as any).selectedWorkout, "date": (this as any).$store.state.selectedDate}
+          )
+          (this as any).$store.commit('setSelectedDate', -1)
+        }
       },
       changeAddForm(currentDay: string){
-        this.$store.commit('setSelectedDate', currentDay)
+        (this as any).$store.commit('setSelectedDate', currentDay)
       }
     }
   }

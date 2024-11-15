@@ -10,7 +10,9 @@
               </div>
             </v-col>
             <v-col cols="auto">
-              <v-btn density="compact" size="x-small" @click="changeAddForm(dateOffset)">Add</v-btn>
+              <v-icon @click="changeAddForm(dateOffset)">
+                mdi-plus-circle-outline
+              </v-icon>
             </v-col>
           </v-row>
         </div>

@@ -6,9 +6,9 @@
       </div>
     </v-col>
     <v-col v-if="props.activity.title !== 'Rest'" cols="auto">
-      <v-btn>
-        Add Exercise
-      </v-btn>
+      <v-icon>
+        mdi-plus-circle-outline
+      </v-icon>
     </v-col>
   </v-row>
 </template>

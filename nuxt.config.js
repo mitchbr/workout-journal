@@ -69,6 +69,12 @@ export default {
         },
       },
     },
+    defaultAssets: {
+      font: {
+        family: 'Open Sans'
+      },
+      icons: 'mdi'
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -4,12 +4,14 @@
       <h1>{{ dateToDisplay(startDate) }} to {{ dateToDisplay(calcDate(startDate, 6)) }}</h1>
     </div>
 
-    <WorkoutsList :startDate=startDate />
+    <WorkoutsList :start-date=startDate />
 
     <div class="bottom-controls">
       <div class="nav-button">
         <v-btn :to="{ path: '', query: { start_date: calcPrevDate() } }">
-          Previous
+          <v-icon>
+            mdi-menu-left
+          </v-icon>
         </v-btn>
       </div>
       <div class="nav-button">
@@ -19,7 +21,9 @@
       </div>
       <div class="nav-button">
         <v-btn :to="{ path: '', query: { start_date: calcNextDate() } }">
-          Next
+          <v-icon>
+            mdi-menu-right
+          </v-icon>
         </v-btn>
       </div>
     </div>
@@ -30,12 +34,30 @@
   import Vue from 'vue';
   export default Vue.extend({
     name: 'IndexPage',
+    computed: {
+      startDate() {
+        // TODO: Validate date format
+        const queryStartDate = this.$route.query.start_date
+        let startDate;
+        if (typeof queryStartDate === 'string') {
+          startDate = new Date(queryStartDate)
+        } else {
+          const currDate = new Date()
+          startDate = new Date()
+          const daysDiff = currDate.getDay() - 1
+          // Finds most recent Monday
+          startDate.setDate(currDate.getDate() - (daysDiff > 0 ? daysDiff : (daysDiff * -6)))
+        }
+        return startDate
+      }
+    },
     methods: {
       dateToDisplay(value: Date) {
-        return `${value.getMonth()+1}/${value.getDate()}/${value.getFullYear()}`
+        const year = value.toLocaleDateString('en', {year: '2-digit'})
+        return `${value.getMonth()+1}/${value.getDate()}/${year}`
       },
       calcDate(startDate: Date, offset: number) {
-        let resDate = new Date(startDate)
+        const resDate = new Date(startDate)
         resDate.setDate(startDate.getDate() + offset)
         return resDate
       },
@@ -47,23 +69,6 @@
       calcPrevDate() {
         const prevDate = this.calcDate(this.startDate, -7)
         return `${prevDate.getMonth()+1}-${prevDate.getDate()}-${prevDate.getFullYear()}`
-      }
-    },
-    computed: {
-      startDate() {
-        // TODO: Validate date format
-        const queryStartDate = this.$route.query.start_date
-        let startDate;
-        if (typeof queryStartDate === 'string') {
-          startDate = new Date(queryStartDate)
-        } else {
-          let currDate = new Date()
-          startDate = new Date()
-          let daysDiff = currDate.getDay() - 1
-          // Finds most recent Monday
-          startDate.setDate(currDate.getDate() - (daysDiff > 0 ? daysDiff : (daysDiff * -6)))
-        }
-        return startDate
       }
     }
   })

@@ -17,14 +17,14 @@
           <ul class="schedule-activities-list">
             <li v-if="$store.state.workoutSchedule[dateOffset-1].activities.length === 0 && dateOffset !== $store.state.selectedDate">
               <div class="rest">
-                <ActivityTile />
+                <WorkoutTile />
               </div>
             </li>
             <li v-for="(activity, index) in $store.state.workoutSchedule[dateOffset-1].activities" :key="index">
-              <ActivityTile :activity=activity />
+              <WorkoutTile :activity=activity />
             </li>
             <li v-if="dateOffset === $store.state.selectedDate">
-              <AddActivity />
+              <AddWorkout :workout-index="dateOffset" />
             </li>
         </ul>
       </li>
@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
   const props = defineProps({
-    startDate: { type: Date },
+    startDate: Date,
   })
 </script>
 
@@ -55,7 +55,7 @@
         return `${days[value.getDay()]} ${value.getMonth()+1}/${value.getDate()}`
       },
       calcDate(startDate: Date, offset: number) {
-        let dateVal = new Date(startDate)
+        const dateVal = new Date(startDate)
         dateVal.setDate(startDate.getDate() + offset)
         return dateVal
       }

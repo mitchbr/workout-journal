@@ -4,7 +4,7 @@
       <h1>{{ dateToDisplay(startDate) }} to {{ dateToDisplay(calcDate(startDate, 6)) }}</h1>
     </div>
 
-    <ActivitiesList :startDate=startDate />
+    <WorkoutsList :startDate=startDate />
 
     <div class="bottom-controls">
       <div class="nav-button">

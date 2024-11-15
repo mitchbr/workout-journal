@@ -12,8 +12,9 @@ export const state = () => ({
 
 export const mutations = {
   setWorkoutSchedule(state, value){
-    const index = state.workoutSchedule.findIndex((element) => element.date === value.date)
-    state.workoutSchedule[index].activities.push({"title": value.title})
+    // TODO: Setting state of two vars probably isn't best practice
+    state.workoutSchedule[value.index].activities = [...state.workoutSchedule[value.index].activities, {"title": value.title}]
+    state.selectedDate = -1
   },
   setSelectedDate(state, value){
     state.selectedDate = value

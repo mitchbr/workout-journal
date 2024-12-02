@@ -51,6 +51,15 @@
         return startDate
       }
     },
+    watch: {
+      '$route' () {
+        this.fetchWorkoutData()
+      }
+    },
+    mounted() {
+      this.fetchWorkoutData()
+    },
+
     methods: {
       dateToDisplay(value: Date) {
         const year = value.toLocaleDateString('en', {year: '2-digit'})
@@ -69,6 +78,9 @@
       calcPrevDate() {
         const prevDate = this.calcDate(this.startDate, -7)
         return `${prevDate.getMonth()+1}-${prevDate.getDate()}-${prevDate.getFullYear()}`
+      },
+      fetchWorkoutData() {
+        (this as any).$store.dispatch('getWorkouts', (this as any).startDate);
       }
     }
   })

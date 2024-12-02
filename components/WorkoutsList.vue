@@ -6,7 +6,7 @@
           <v-row align="center" justify="space-between">
             <v-col cols="auto">
               <div class="text-h5">
-                {{ dateToDisplay(calcDate(props.startDate, dateOffset-1)) }}
+                {{ dateToDisplay(calcDate(startDate, dateOffset-1)) }}
               </div>
             </v-col>
             <v-col cols="auto">
@@ -17,16 +17,16 @@
           </v-row>
         </div>
           <ul class="schedule-activities-list">
-            <li v-if="$store.state.workoutSchedule[dateOffset-1].activities.length === 0 && dateOffset !== $store.state.selectedDate">
+            <li v-if="workoutSchedule[dateOffset-1].activities.length === 0 && dateOffset !== $store.state.selectedDate">
               <div class="rest">
                 <WorkoutTile />
               </div>
             </li>
-            <li v-for="(activity, index) in $store.state.workoutSchedule[dateOffset-1].activities" :key="index">
-              <WorkoutTile :activity=activity />
+            <li v-for="(workout, index) in workoutSchedule[dateOffset-1].activities" :key="index">
+              <WorkoutTile :workout=workout />
             </li>
             <li v-if="dateOffset === $store.state.selectedDate">
-              <AddWorkout :workout-index="dateOffset" />
+              <AddWorkout :workout-date="calcDate(startDate, dateOffset-1)" :start-date="startDate" />
             </li>
         </ul>
       </li>
@@ -34,21 +34,22 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-  const props = defineProps({
-    startDate: Date,
-  })
-</script>
-
-
 <script lang="ts">
   export default {
-    data () {
-      return {}
+    props: {
+      startDate: {
+        type: Date,
+        required: true
+      },
+    },
+    computed: {
+      workoutSchedule() {
+        return (this as any).$store.state.workoutSchedule
+      }
     },
     methods: {
       changeAddForm(currentDay: number){
-        (this as any).$store.commit('setSelectedDate', currentDay)
+        (this as any).$store.dispatch('updateSelectedDate', currentDay)
       },
       dateToDisplay(value: Date) {
         const days = [
@@ -60,7 +61,7 @@
         const dateVal = new Date(startDate)
         dateVal.setDate(startDate.getDate() + offset)
         return dateVal
-      }
+      },
     }
   }
 </script>

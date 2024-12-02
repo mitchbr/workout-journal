@@ -1,66 +1,160 @@
 <template>
-  <div class="add-workout-details">
-    <ol>
-      <li v-if="selectedWorkout === 'Lift'">
-        <div class="add-workout-details-form lifting">
-          <v-responsive
-            class="mx-auto"
-            max-width="75"
-          >
-            <v-text-field label="Weight"></v-text-field>
-          </v-responsive>
-          lb
-          <v-responsive
-            class="mx-auto"
-            max-width="50"
-          >
-            <v-text-field label="Reps"></v-text-field>
-          </v-responsive>
-          r
-          <v-btn size="small">Add</v-btn>
-        </div>
-      </li>
-      <li v-if="selectedWorkout === 'Climb'">
-        <div class="add-workout-details-form climb">
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <template #activator="{ on, attrs }">
+        <v-icon 
+          v-bind="attrs"
+          v-on="on"
+        >
+          mdi-plus-circle-outline
+        </v-icon>
+    </template>
+
+      <v-card>
+        <v-card-title class="text-h5">
+          New {{ workout.title }} Info
+        </v-card-title>
+        
+        <v-col cols="auto">
+
+          <v-text-field v-model="inputTitle" label="Title" ></v-text-field>
+
           <v-select
-            label="Type"
-            :items="['Boulder', 'Ropes']"
+            v-model="selectedExerciseType"
+            label="Exercise Type"
+            :items="exerciseType"
           ></v-select>
-          <v-responsive
-            class="mx-auto"
-            max-width="250"
+
+          <div v-if="selectedExerciseType === 'Weight & Reps'" >
+            <v-col cols="auto">
+              <v-row align="center" justify="space-around">
+                <v-col cols="auto">
+                  <v-row align="center" justify="start">
+                      <v-responsive
+                      max-width="150"
+                    >
+                      <v-text-field v-model="inputWeight" label="Weight"></v-text-field>
+                    </v-responsive>
+                    <p>lb</p>
+                  </v-row>
+                </v-col>
+                <v-col cols="auto">
+                  <v-row align="center" justify="start">
+                    <v-responsive
+                      max-width="150"
+                    >
+                      <v-text-field v-model="inputReps" label="Reps"></v-text-field>
+                    </v-responsive>
+                    <p>reps</p>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-col>
+          </div>
+          <div v-if="selectedExerciseType === 'Distance'" >
+            <v-col cols="auto">
+              <v-row align="center" justify="space-around">
+                <v-responsive
+                  max-width="150"
+                >
+                  <v-text-field v-model="inputDistance" label="Distance"></v-text-field>
+                </v-responsive>
+                <p>Miles</p>
+              </v-row>
+            </v-col>
+          </div>
+
+          <v-divider></v-divider>
+
+          <v-text-field v-model="inputLocation" label="Location" ></v-text-field>
+          <v-text-field v-model="inputNote" label="Note"></v-text-field>
+
+          <v-divider></v-divider>
+        </v-col>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="secondary"
+            text
+            @click="dialog = false"
           >
-            <v-text-field label="Location"></v-text-field>
-          </v-responsive>
-        </div>
-      </li>
-      <li v-if="selectedWorkout === 'Run'">
-        <div class="add-workout-details-form run">
-          <v-responsive
-            class="mx-auto"
-            max-width="250"
+            Close
+          </v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="submitExercise"
           >
-            <v-text-field></v-text-field>
-          </v-responsive>
-          Miles
-        </div>
-      </li>
-      <li v-if="selectedWorkout === 'Other'">
-        <div class="add-workout-details-form lifting">
-          <v-responsive
-            class="mx-auto"
-            max-width="250"
-          >
-            <v-text-field label="Note"></v-text-field>
-          </v-responsive>
-        </div>
-      </li>
-    </ol>
+            Submit
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+  export default {
+    props: {
+      workout: {
+        type: Object,
+        required: true
+      },
+    },
+    data () {
+      return {
+        dialog: false,
+        selectedExerciseType: "",
+        exerciseType: [
+          'Weight & Reps',
+          'Distance',
+          'Other',
+        ],
+        inputTitle: "",
+        inputWeight: "",
+        inputReps: "",
+        inputDistance: "",
+        inputLocation: "",
+        inputNote: "",
+      }
+    },
+    methods: {
+      resetToDefaults() {
+        this.dialog = false
+        this.inputTitle = ""
+        this.inputWeight = ""
+        this.inputReps = ""
+        this.inputDistance = ""
+        this.inputLocation = ""
+        this.inputNote = ""
+      },
+      submitExercise() {
+        const thisObj = this as any // TODO: Why???
+        const exerciseData = {
+          workoutId: thisObj.$props.workout.id,
+          title: thisObj.inputTitle,
+          type: thisObj.selectedExerciseType,
+          weight: thisObj.inputWeight,
+          reps: thisObj.inputReps,
+          distance: thisObj.inputDistance,
+          location: thisObj.inputLocation,
+          note: thisObj.inputNote
+        }
 
+        this.$store.dispatch('addExercise', exerciseData)
+        // TODO: startDate add to store
+          // .then(() => {
+          //   (this as any).$store.dispatch('getWorkouts', (this as any).startDate)
+          // })
+        this.resetToDefaults()
+        
+      }
+    }
+  }
 </script>
 
 <style>

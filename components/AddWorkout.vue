@@ -12,36 +12,40 @@
         <v-btn @click="changeAddForm(-1)">Cancel</v-btn>
       </v-col>
       <v-col cols="auto">
-        <v-btn size="small" @click="addWorkout(props.workoutIndex)">Add</v-btn>
+        <v-btn size="small" @click="addWorkout(workoutDate)">Add</v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 
-<script lang="ts" setup>
-  const props = defineProps({
-    workoutIndex: {
-      type: Number,
-      required: true
-    },
-  })
-</script>
-
 <script lang="ts">
   export default {
+    props: {
+      workoutDate: {
+        type: Date,
+        required: true
+      },
+      startDate: {
+        type: Date,
+        required: true
+      },
+    },
     data () {
       return {
         selectedWorkout: "",
       }
     },
     methods: {
-      addWorkout (workoutIndex: number) {
+      addWorkout (workoutDate: Date) {
         if ((this as any).selectedWorkout !== "") {
-          (this as any).$store.commit('setWorkoutSchedule', {"title": (this as any).selectedWorkout, "index": workoutIndex-1})
+          (this as any).$store.dispatch('addWorkout', {"title": (this as any).selectedWorkout, workoutDate})
+            .then(() => {
+              (this as any).$store.dispatch('getWorkouts', (this as any).startDate)
+            })
         }
       },
-      changeAddForm(currentDay: string){
-        (this as any).$store.commit('setSelectedDate', currentDay)
+      changeAddForm(currentDay: number){
+        (this as any).$store.dispatch('updateSelectedDate', currentDay)
       }
     }
   }

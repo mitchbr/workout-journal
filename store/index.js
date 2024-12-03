@@ -48,7 +48,7 @@ export const actions = {
       body,
       {
         headers: {
-        'auth-key': 'key',
+        'auth-key': this.$config.apiKey,
         'username': 'name'
         },
         
@@ -75,7 +75,7 @@ export const actions = {
       body,
       {
         headers: {
-        'auth-key': 'key',
+        'auth-key': this.$config.apiKey,
         'username': 'name'
         },
         
@@ -91,7 +91,7 @@ export const actions = {
       `${this.$config.baseUrl}/workouts?start_date=${startDateParam}`,
       {
         headers: {
-        'auth-key': 'key',
+        'auth-key': this.$config.apiKey,
         'username': 'name'
       }
     })
@@ -101,7 +101,7 @@ export const actions = {
       `${this.$config.baseUrl}/exercises?workout_id__in=${workoutIds.join(',')}`,
       {
         headers: {
-        'auth-key': 'key',
+        'auth-key': this.$config.apiKey,
         'username': 'name'
       }
     })

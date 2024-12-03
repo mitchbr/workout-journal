@@ -3,6 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   publicRuntimeConfig: {
     baseUrl: process.env.BASE_URL,
+    apiKey: process.env.API_KEY,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {

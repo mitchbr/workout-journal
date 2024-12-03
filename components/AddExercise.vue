@@ -146,7 +146,7 @@
           note: thisObj.inputNote
         }
 
-        this.$store.dispatch('addExercise', exerciseData)
+        thisObj.$store.dispatch('addExercise', exerciseData)
         // TODO: startDate add to store
           // .then(() => {
           //   (this as any).$store.dispatch('getWorkouts', (this as any).startDate)

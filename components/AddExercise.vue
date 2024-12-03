@@ -124,13 +124,14 @@
     },
     methods: {
       resetToDefaults() {
-        this.dialog = false
-        this.inputTitle = ""
-        this.inputWeight = ""
-        this.inputReps = ""
-        this.inputDistance = ""
-        this.inputLocation = ""
-        this.inputNote = ""
+        const thisObj = this as any // TODO: WHY??
+        thisObj.dialog = false
+        thisObj.inputTitle = ""
+        thisObj.inputWeight = ""
+        thisObj.inputReps = ""
+        thisObj.inputDistance = ""
+        thisObj.inputLocation = ""
+        thisObj.inputNote = ""
       },
       submitExercise() {
         const thisObj = this as any // TODO: Why???

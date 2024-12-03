@@ -8,7 +8,7 @@ export const state = () => ({
     {"activities": []}, 
     {"activities": []}],
   selectedDate: -1,
-  user_id: '047efff5-cb50-42df-9a57-b9fd91d90602', // TODO: Dynamically grab this
+  user_id: 'faf5b996-a469-47a0-9752-b79e31535709', // TODO: Dynamically grab this
 })
 
 export const mutations = {
@@ -102,7 +102,7 @@ export const actions = {
       {
         headers: {
         'auth-key': this.$config.apiKey,
-        'username': 'name'
+        'username': 'name' // TODO: Dynamically get username
       }
     })
     const exercisesMap = {}

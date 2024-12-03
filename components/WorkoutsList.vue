@@ -23,7 +23,7 @@
               </div>
             </li>
             <li v-for="(workout, index) in workoutSchedule[dateOffset-1].activities" :key="index">
-              <WorkoutTile :workout=workout />
+              <WorkoutTile :workout=workout :is-last-item="index === workoutSchedule[dateOffset-1].activities.length-1 && dateOffset !== $store.state.selectedDate" />
             </li>
             <li v-if="dateOffset === $store.state.selectedDate">
               <AddWorkout :workout-date="calcDate(startDate, dateOffset-1)" :start-date="startDate" />
@@ -62,6 +62,9 @@
         dateVal.setDate(startDate.getDate() + offset)
         return dateVal
       },
+      calcIsLastItem(index: number, workout: {activities: Object[]}) {
+        return index === workout.activities.length-1
+      }
     }
   }
 </script>
@@ -74,11 +77,14 @@
   }
 
   .schedule-title {
-    border-bottom: 3px solid grey;
+    /* border-bottom: 3px solid grey; */
     padding: 0.5rem;
   }
 
   .schedule-activities-list {
+    border: 2px solid #1c1c1c;
+    border-radius: 7px;
+    background-color: #1c1c1c;
     list-style-type: none;
     margin: 0;
     padding: 0;

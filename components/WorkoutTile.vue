@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="rest-tile">
-      <v-row v-if="workout.title === 'Rest'" align="center" justify="start">
+    <div v-if="workout.title === 'Rest'" class="rest-tile">
+      <v-row align="center" justify="start">
         <v-col cols="auto">
           <div class="text-h6">
             {{ workout.title }}
@@ -9,8 +9,8 @@
         </v-col>
       </v-row>
     </div>
-    <div v-if="workout.title !== 'Rest'" class="workout-tile">
-      <v-row v-if="workout.title !== 'Rest'" align="center" justify="start">
+    <div v-if="workout.title !== 'Rest'" class="workout-tile" :style="{ borderBottom: !isLastItem ? '1px solid grey' : '' }">
+      <v-row align="center" justify="start">
         <v-col cols="auto">
           <div class="text-h6">
             {{ workout.title }}
@@ -22,10 +22,8 @@
       </v-row>
       <ul>
         <li v-for="(exercise, index) in workout.exercises" :key="index">
-          <p>{{ exerciseTileText(exercise) }}</p>
-          <ul v-if="exercise.note">
-            <li><p>{{ exercise.note }}</p></li>
-          </ul>
+          <div class="text-h6">{{ exerciseTileText(exercise) }}</div>
+          <div v-if="exercise.note" class="note-list-item text-h7">{{ exercise.note }}</div>
         </li>
       </ul>
     </div>
@@ -42,6 +40,10 @@
           return {title: "Rest"}
         }
       },
+      isLastItem: {
+        type: Boolean,
+        default: false
+      }
     },
     methods: {
       exerciseTileText (exercise: Exercise) {
@@ -62,9 +64,12 @@
 
 <style>
   .workout-tile {
-    border: 2px solid grey;
-    border-radius: 7px;
     margin-top: 0.5rem;
+    margin-right: 1rem;
     padding: 0.5rem;
+  }
+  .note-list-item {
+    font-style: italic;
+    padding-left: 0.5rem;
   }
 </style>

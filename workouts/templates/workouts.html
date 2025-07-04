@@ -4,11 +4,18 @@
   <h1 class="text-4xl text-success mb-4">
     Workout Journal -- Signed in as {{ user.username }}
   </h1>
-  <ul>
-    {% for workout in workouts %}
+  <button id="addWorkoutButton">Add Workout</button>
+  <ol>
+    {% for workout_date in workouts %}
       <li>
-        <a>{{ workout.type }}</a>
-        <span class="text-gray-500">{{ workout.workout_type }} ({{ workout.note }})</span>
+        <a>{{ workout_date.date }}</a>
+        <ul>
+          {% for workout in workout_date.workouts %}
+            <li>
+              <a>- {{ workout.workout_type }}</a>
+              <a>- {{ workout.note }}</a>
+            </li>
+          {% endfor %}
       </li>
     {% empty %}
       <li>No workouts found.</li>

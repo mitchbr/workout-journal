@@ -1,0 +1,17 @@
+<div class="bg-gray-400 mb-2">
+  <li>
+    <div class="title-bar p-2">
+      <p class="title-bar-text text-xl">{{ workout_date.date }}</p>
+    </div>
+    <div class="p-2">
+      <table>
+        {% for workout in workout_date.workouts %}
+          <li>
+            <p class="text-sm">{{ workout.workout_type }}</p>
+            <p class="text-sm pl-4">- {{ workout.note }}</p>
+          </li>
+        {% endfor %}
+      </table>
+    </div>
+  </li>
+</div>

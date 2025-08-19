@@ -1,0 +1,6 @@
+<ol id="workouts-list-body" >
+  {% for workout_date in workouts %}
+    {% include 'partials/workout_row.html' %}
+  {% empty %}
+    <li><a class="text-base">No workouts found.</a></li>
+  {% endfor %}

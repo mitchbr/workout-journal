@@ -1,0 +1,48 @@
+<dialog id="add_workout_modal" class="modal">
+  <div class="modal-box">
+    <div class="title-bar mb-4">
+      <div class="title-bar-text text-lg px-2">Add Workout</div>
+    </div>
+    <form 
+      hx-post="{% url 'workouts:workout' %}" 
+      hx-target="#workouts-list-body" 
+      hx-swap="outerHTML" 
+      hx-on:workout-added="add_workout_modal.close(); this.reset();"
+      class="mb-4"
+    >
+      {% csrf_token %}
+      <div class="form-control px-2">
+        <div class="mb-2">
+          <label class="label">
+            <span class="label-text">Date</span>
+          </label>
+          {{ form.date }}
+        </div>
+        <div class="mb-2">
+          <label class="label">
+            <span class="label-text">Workout Type</span>
+          </label>
+          <span class="overflow-auto p-1">{{ form.workout_type }}</span>
+        </div>
+        
+        <div class="mb-2">
+          <label class="label">
+            <span class="label-text">Placeholder</span>
+          </label>
+          
+        </div>
+
+        <div class="mb-2">
+          <label class="label">
+            <span class="label-text">Note</span>
+          </label>
+          {{ form.note }}
+        </div>
+
+        <div class="modal-action mb-4">
+          <button class="default m-2 p-2" type="button" onclick="add_workout_modal.close()">Cancel</button>
+          <button class="default m-2 p-2" type="submit">Add Workout</button>
+        </div>
+    </form>
+  </div>
+</dialog>

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from .models import Workout
+from .forms import WorkoutForm
+from .models import User, Workout
 
 
 def getWorkouts(user, view_date):
@@ -16,3 +17,21 @@ def getWorkouts(user, view_date):
     elif workouts_by_date[-1]["date"] == workout.date:
       workouts_by_date[-1]["workouts"].append(workout)
   return workouts_by_date
+
+def getWorkoutsContext(request, new_workout_date=None):
+  user = User.objects.get(username="Mitchell")
+  view_date_str = new_workout_date or request.GET.get('view_date', datetime.today().strftime("%m/%d/%Y"))
+  view_date = datetime.strptime(view_date_str, "%m/%d/%Y")
+  start_date = view_date - timedelta(days=view_date.weekday())
+  next_week = (view_date + timedelta(days=7)).strftime("%m/%d/%Y")
+  prev_week = (view_date - timedelta(days=7)).strftime("%m/%d/%Y")
+  workouts = getWorkouts(user, view_date_str)
+  
+  return {
+    "user": user, 
+    "workouts": workouts, 
+    "form": WorkoutForm(),
+    "next_week": next_week,
+    "prev_week": prev_week,
+    "start_date": start_date
+  }

@@ -1,4 +1,4 @@
-<dialog id="add_workout_modal" class="modal">
+<dialog id="add_workout_modal" class="modal window">
   <div class="modal-box">
     <div class="title-bar mb-4">
       <div class="title-bar-text text-lg px-2">Add Workout</div>
@@ -18,21 +18,29 @@
         <div class="mb-2">
           <span class="p-1">{{ form.workout_type }}</span>
         </div>
-        
+
         <div class="mb-2">
           <label class="label">
             <span class="text-lg label-text">Workout Data</span>
           </label>
-          
+        </div>
+
+        <div id="dynamic-workout-fields" 
+             hx-get="{% url 'workouts:get_workout_type_fields' %}"
+             hx-trigger="change from:select[name='workout_type']"
+             hx-target="this"
+             hx-swap="innerHTML"
+             hx-include="select[name='workout_type']">
+          <!-- Dynamic fields will be loaded here -->
         </div>
 
         <div class="mb-2">
           <span class="text-lg p-1">{{ form.note }}</span>
         </div>
 
-        <div class="modal-action mb-4">
-          <button class="default m-2 p-2" type="button" onclick="add_workout_modal.close()">Cancel</button>
-          <button class="default m-2 p-2" type="submit">Add Workout</button>
+        <div class="modal-action flex justify-end mb-4">
+          <button class="default m-1 p-1" type="button" onclick="add_workout_modal.close()">Cancel</button>
+          <button class="default m-1 p-1" type="submit">OK</button>
         </div>
     </form>
   </div>

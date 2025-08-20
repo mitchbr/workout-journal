@@ -1,0 +1,9 @@
+{% for field in fields %}
+  <div class="flex justify-start mb-2">
+    <p class="text-base">{{ field.title }}</p>
+    <input type="{{ field.datatype }}" 
+            name="dynamic_{{ field.title }}"
+            placeholder="{{ field.placeholder|default:'' }}"
+            class="input input-bordered w-full">
+  </div>
+{% endfor %}

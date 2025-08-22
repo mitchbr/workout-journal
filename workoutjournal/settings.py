@@ -17,6 +17,8 @@ ALLOWED_HOSTS = [
     'workouts.mitchbr.dev'
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://workouts.mitchbr.dev']
+
 
 # Application definition
 

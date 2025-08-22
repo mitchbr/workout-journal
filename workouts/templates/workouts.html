@@ -14,7 +14,10 @@
           <div class="text-2xl font-bold">
             Week of {{ start_date|date:"F j, Y" }}
           </div>
-          <button class="btn default text-lg px-6 py-3" onclick="add_workout_modal.showModal()">Add Workout</button>
+          <div class="flex justify-end">
+            {% comment %} <button class="btn default text-lg px-6 py-3" onclick="">Edit</button> {% endcomment %}
+            <button class="btn default text-lg px-6 py-3" onclick="add_workout_modal.showModal()">Add Workout</button>
+          </div>
         </div>
         {% include 'partials/add_workout_modal.html' %}
         {% include 'partials/workouts_list.html' %}

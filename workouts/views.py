@@ -12,6 +12,18 @@ def index(request):
   default_user = User.objects.filter(username="Mitchell").first()
   if not default_user:
     default_user = User.objects.create(username="Mitchell")
+    WorkoutType.objects.create(title="Deadlift", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Beanch Press", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Bulgarian Split Squats", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Romanian Deadlift", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Barbell Row", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Shoulder Press", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Single Leg RDL", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Hangboard", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Dumbbell Row", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Bouldering", fields={"location": "text"})
+    WorkoutType.objects.create(title="Rope Climbing", fields={"location": "text"})
+    WorkoutType.objects.create(title="Other", fields={"exercise": "text"})
     workout_type = WorkoutType.objects.create(title="Pull Ups", fields={"weight": "number", "reps": "number"})
     Workout.objects.create(
       user=default_user,
@@ -34,7 +46,6 @@ def workout(request):
 
     dynamic_items = {k.removeprefix('dynamic_'): v for k, v in request.POST.items() if k.startswith('dynamic_')}
     workout.data = dynamic_items
-    print('DYNAMIC', dynamic_items)
 
     workout.save()
   
@@ -53,12 +64,11 @@ def get_workout_type_fields(request):
     return HttpResponse('')
   
   try:
-    workout_type = WorkoutType.objects.get(id=workout_type_ids[0])
+    workout_type = WorkoutType.objects.get(id=workout_type_ids)
     fields = workout_type.fields or []
     processed_fields = []
     for field in fields:
       processed_fields.append({'title': field, 'datatype': fields[field]})
-    print(processed_fields)
     return render(request, 'partials/workout_type_field.html', {
         'fields': processed_fields
     })

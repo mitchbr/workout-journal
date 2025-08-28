@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,10 +15,14 @@ SECRET_KEY = "django-insecure-%hjisw!0c0)bs&s9m#0e(#(=g54-#f+q2-d3+p%puk)0=5qrp#
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'workouts.mitchbr.dev'
+    'workouts.mitchbr.dev',
+    'localhost'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://workouts.mitchbr.dev']
+CSRF_TRUSTED_ORIGINS = [
+    'https://workouts.mitchbr.dev', 
+    'http://localhost'
+]
 
 
 # Application definition
@@ -30,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    'pwa',
     "workouts",
 ]
 
@@ -117,3 +123,39 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "workouts.User"
 LOGIN_URL = "/admin/"
+
+# PWA Settings
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
+
+PWA_APP_NAME = 'workouts'
+PWA_APP_DESCRIPTION = "Workouts PWA"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/workouts/templates/Workouts.png',
+        'sizes': '160x160',
+        'type': 'image/png',
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/workouts/templates/Workouts.png',
+        'sizes': '160x160',
+        'type': 'image/png',
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/workouts/templates/Workouts.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

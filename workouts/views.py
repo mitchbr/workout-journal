@@ -13,7 +13,8 @@ def index(request):
   if not default_user:
     default_user = User.objects.create(username="Mitchell")
     WorkoutType.objects.create(title="Deadlift", fields={"weight": "number", "reps": "number"})
-    WorkoutType.objects.create(title="Beanch Press", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Bench Press", fields={"weight": "number", "reps": "number"})
+    WorkoutType.objects.create(title="Pull Ups", fields={"weight": "number", "reps": "number"})
     WorkoutType.objects.create(title="Bulgarian Split Squats", fields={"weight": "number", "reps": "number"})
     WorkoutType.objects.create(title="Romanian Deadlift", fields={"weight": "number", "reps": "number"})
     WorkoutType.objects.create(title="Barbell Row", fields={"weight": "number", "reps": "number"})
@@ -23,15 +24,8 @@ def index(request):
     WorkoutType.objects.create(title="Dumbbell Row", fields={"weight": "number", "reps": "number"})
     WorkoutType.objects.create(title="Bouldering", fields={"location": "text"})
     WorkoutType.objects.create(title="Rope Climbing", fields={"location": "text"})
+    WorkoutType.objects.create(title='Biking', fields={"distance": "number", "type": "text"})
     WorkoutType.objects.create(title="Other", fields={"exercise": "text"})
-    workout_type = WorkoutType.objects.create(title="Pull Ups", fields={"weight": "number", "reps": "number"})
-    Workout.objects.create(
-      user=default_user,
-      date=datetime(2025, 6, 21, 10, 30, 0),
-      workout_type=workout_type,
-      data={"weight": 0, "reps": 8},
-      note="Shoulder sore",
-    )
 
   context = getWorkoutsContext(request)
   return render(request, "workouts.html", context)

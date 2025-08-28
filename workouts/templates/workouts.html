@@ -3,8 +3,8 @@
 <div id="workouts-body">
   <header class="flex-shrink-0 sticky top-0 z-50">
     <div class="title-bar flex justify-between">
-      <div class="title-bar-text text-2xl px-2 ">Workout Journal</div>
-      <div class="title-bar-text text-2xl px-2 ">Signed in as {{ user.username }}</div>
+      <div class="title-bar-text text-2xl px-2">Workout Journal</div>
+      <div class="title-bar-text text-2xl px-2">Signed in as {{ user.username }}</div>
     </div>
   </header>
   <main class="flex-1 overflow-y-auto">
@@ -12,7 +12,7 @@
       <div class="px-3">
         <div class="flex justify-between items-center mb-2">
           <div class="text-2xl font-bold">
-            Week of {{ start_date|date:"F j, Y" }}
+            Week of {{ start_date.date }}
           </div>
           <div class="flex justify-end">
             {% comment %} <button class="btn default text-lg px-6 py-3" onclick="">Edit</button> {% endcomment %}

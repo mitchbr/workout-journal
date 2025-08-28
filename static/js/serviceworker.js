@@ -1,5 +1,10 @@
 var staticCacheName = 'djangopwa-v1';
 
+/* js */
+navigator.serviceWorker.getRegistrations().then(registrations => {
+  registrations.forEach(registration => registration.unregister());
+});
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {

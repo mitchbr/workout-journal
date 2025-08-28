@@ -6,6 +6,7 @@ class WorkoutForm(forms.ModelForm):
     workout_type = forms.ModelChoiceField(queryset=WorkoutType.objects.all(), empty_label="Select a Category")
     note = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Note'}),
+        required=False
     )
     date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}),

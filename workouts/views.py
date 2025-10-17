@@ -2,6 +2,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
+from urllib.parse import unquote
 
 from .forms import WorkoutForm, WorkoutUpdateForm
 from .helpers import getWorkoutsContext
@@ -59,9 +60,8 @@ def update_workout(request, workout_id):
   if 'date' in req_attrs:
     workout.date = datetime.strptime(req_attrs.get('date'), '%Y-%m-%d').date()
   if 'note' in req_attrs:
-    workout.note = req_attrs['note']
+    workout.note = unquote(req_attrs['note'])
 
-  print(req_attrs.items())
   dynamic_items = {k.removeprefix('dynamic_'): v for k, v in req_attrs.items() if k.startswith('dynamic_')}
   workout.data = dynamic_items
 

@@ -16,3 +16,17 @@ class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
         fields = ['workout_type', 'note', 'date']
+        
+class WorkoutUpdateForm(forms.ModelForm):
+    note = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Note'}),
+        required=False
+    )
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
+    
+    class Meta:
+        model = Workout
+        fields = ['date', 'note']

@@ -4,6 +4,7 @@
     <input type="{{ field.datatype }}" 
             name="dynamic_{{ field.title }}"
             placeholder="{{ field.placeholder|default:'' }}"
+            value="{{ field.default_value|default:'' }}"
             class="input input-bordered w-full">
   </div>
 {% endfor %}

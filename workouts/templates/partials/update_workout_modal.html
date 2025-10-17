@@ -1,0 +1,55 @@
+<div id="update-workout-container">
+  <div class="modal-box">
+    <div class="title-bar mb-4">
+      <div class="title-bar-text text-lg px-2">{{ workout.workout_type.title }}</div>
+    </div>
+    <form 
+      hx-patch="workout/{{ workout.id }}/" 
+      hx-target="#workouts-body" 
+      hx-swap="innerHTML" 
+      hx-on:workout-updated="add_workout_modal.close(); this.reset();"
+      class="mb-4"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    >
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ workout.id }}">
+      
+      <div class="form-control px-2">
+        <div class="mb-2">
+          <label class="label">
+            <span class="text-lg label-text">Date</span>
+          </label>
+          {{ form.date }}
+        </div>
+
+        <div class="mb-2">
+          <label class="label">
+            <span class="text-lg label-text">Workout Data</span>
+          </label>
+        </div>
+
+        <div id="dynamic-workout-fields" 
+            hx-get="/workout/fields?workout_type={{ workout.workout_type.id }}{% for key, value in workout.data.items %}&{{ key }}={{ value|urlencode }}{% endfor %}"
+            hx-trigger="load"
+            hx-target="this"
+            hx-swap="innerHTML">
+          <!-- Dynamic fields will be loaded here -->
+        </div>
+
+        <div class="mb-2">
+          <label class="label">
+            <span class="text-lg label-text">Note</span>
+          </label>
+          {{ form.note }}
+        </div>
+
+          <button class="default m-1 p-1" type="button" onclick="test_dialog.close()">Delete</button>
+
+        <div class="modal-action flex justify-end mb-4">
+          <button class="default m-1 p-1" type="button" onclick="test_dialog.close()">Cancel</button>
+          <button class="default m-1 p-1" type="submit">OK</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

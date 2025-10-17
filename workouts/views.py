@@ -1,9 +1,9 @@
 from datetime import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
-from .forms import WorkoutForm
+from .forms import WorkoutForm, WorkoutUpdateForm
 from .helpers import getWorkoutsContext
 from .models import User, Workout, WorkoutType
 
@@ -50,6 +50,30 @@ def workout(request):
     response['HX-Trigger'] = 'workout-added'
     return response
 
+@require_http_methods(["PATCH"])
+def update_workout(request, workout_id):
+  req_body = request.body.decode('utf-8')
+  req_attrs = dict(attr.split('=') for attr in req_body.split('&'))
+  workout = get_object_or_404(Workout, id=workout_id)
+  
+  if 'date' in req_attrs:
+    workout.date = datetime.strptime(req_attrs.get('date'), '%Y-%m-%d').date()
+  if 'note' in req_attrs:
+    workout.note = req_attrs['note']
+
+  print(req_attrs.items())
+  dynamic_items = {k.removeprefix('dynamic_'): v for k, v in req_attrs.items() if k.startswith('dynamic_')}
+  workout.data = dynamic_items
+
+  workout.save()
+
+  updated_workout_date = workout.date.strftime("%m/%d/%Y")
+
+  context = getWorkoutsContext(request, updated_workout_date)
+  response = render(request, "workouts.html", context)
+  response['HX-Trigger'] = 'workout-updated'
+  return response
+
 @require_http_methods(["GET"])
 def get_workout_type_fields(request):
   workout_type_ids = request.GET.get('workout_type')
@@ -62,9 +86,22 @@ def get_workout_type_fields(request):
     fields = workout_type.fields or []
     processed_fields = []
     for field in fields:
-      processed_fields.append({'title': field, 'datatype': fields[field]})
+      field_value = request.GET.get(field) if request.GET.get(field) else ''
+      processed_fields.append({'title': field, 'datatype': fields[field], 'default_value': field_value})
     return render(request, 'partials/workout_type_field.html', {
         'fields': processed_fields
     })
   except (WorkoutType.DoesNotExist, ValueError):
     return HttpResponse('')
+
+@require_http_methods(["GET"])
+def get_workout_modal(request, workout_id):
+    workout = get_object_or_404(Workout, id=workout_id)
+    form = WorkoutUpdateForm(instance=workout)
+    
+    context = {
+        'workout': workout,
+        'form': form,
+    }
+    
+    return render(request, 'partials/update_workout_modal.html', context)

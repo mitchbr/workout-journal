@@ -8,7 +8,6 @@
         {% for workout in workout_date.workouts %}
           <li>
             <a
-              role="button"
               hx-get="{% url 'workouts:workout_modal' workout.id %}"
               hx-target="#update-workout-container"
               hx-swap="outerHTML"

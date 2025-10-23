@@ -7,7 +7,7 @@
       <table>
         {% for workout in workout_date.workouts %}
           <li>
-            <div
+            <a
               role="button"
               hx-get="{% url 'workouts:workout_modal' workout.id %}"
               hx-target="#update-workout-container"
@@ -24,7 +24,7 @@
                   </p>
                 {% endfor %}
               <p class="text-sm pl-4 ml-4">{{ workout.note }}</p>
-            </div>
+            </a>
           </li>
         {% endfor %}
       </table>

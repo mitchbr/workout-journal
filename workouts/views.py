@@ -63,7 +63,11 @@ def update_workout(request, workout_id):
     workout.note = unquote(req_attrs['note'])
 
   dynamic_items = {k.removeprefix('dynamic_'): v for k, v in req_attrs.items() if k.startswith('dynamic_')}
-  workout.data = dynamic_items
+  if dynamic_items:
+    workout.data = dynamic_items
+    
+  if 'is_active' in req_attrs:
+    workout.is_active = True if req_attrs['is_active'].lower() == 'true' else False
 
   workout.save()
 

@@ -4,6 +4,7 @@
       <div class="title-bar-text text-lg px-2">{{ workout.workout_type.title }}</div>
     </div>
     <form 
+      id="update-workout-form"
       hx-patch="workout/{{ workout.id }}/" 
       hx-target="#workouts-body" 
       hx-swap="innerHTML" 
@@ -43,11 +44,12 @@
           {{ form.note }}
         </div>
 
-          <button class="default m-1 p-1" type="button" onclick="test_dialog.close()">Delete</button>
+        <button class="default m-1 p-1" type="button" onclick="comfirm_delete_modal.showModal()">Delete</button>
+        {% include 'partials/delete_workout_confirmation_modal.html' %}
 
         <div class="modal-action flex justify-end mb-4">
-          <button class="default m-1 p-1" type="button" onclick="test_dialog.close()">Cancel</button>
-          <button class="default m-1 p-1" type="submit">OK</button>
+          <button class="default m-1 p-1" type="button" onclick="update_workout_modal.close()">Cancel</button>
+          <button class="default m-1 p-1" type="submit" form="update-workout-form">OK</button>
         </div>
       </div>
     </form>

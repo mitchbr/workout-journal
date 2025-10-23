@@ -3,7 +3,7 @@ from django import forms
 from .models import Workout, WorkoutType
 
 class WorkoutForm(forms.ModelForm):
-    workout_type = forms.ModelChoiceField(queryset=WorkoutType.objects.all(), empty_label="Select a Category")
+    workout_type = forms.ModelChoiceField(queryset=WorkoutType.objects.all().order_by("title"), empty_label="Select a Category")
     note = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Note'}),
         required=False

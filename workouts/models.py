@@ -18,6 +18,7 @@ class Workout(models.Model):
     workout_type = models.ForeignKey(WorkoutType, on_delete=models.PROTECT)
     note = models.TextField(blank=True, null=True)
     data = models.JSONField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.date}"

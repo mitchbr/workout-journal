@@ -7,12 +7,13 @@
       <table>
         {% for workout in workout_date.workouts %}
           <li>
-            <div 
+            <div
+              role="button"
               hx-get="{% url 'workouts:workout_modal' workout.id %}"
               hx-target="#update-workout-container"
               hx-swap="outerHTML"
               class="workout-item cursor-pointer"
-              hx-on:htmx:after-request="test_dialog.showModal()"
+              hx-on:htmx:after-request="update_workout_modal.showModal()"
             >
               <div class="text-base flex justify-start">
                 <p class="text-base">{{ workout.workout_type.title }}</p>
@@ -29,5 +30,5 @@
       </table>
     </div>
   </li>
-  <dialog id="test_dialog" class="modal window"><div id="update-workout-container">HALO</div></dialog>
+  <dialog id="update_workout_modal" class="modal window"><div id="update-workout-container">HALO</div></dialog>
 </div>

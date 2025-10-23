@@ -1,0 +1,22 @@
+<dialog id="comfirm_delete_modal" class="modal window">
+  <div class="modal-box">
+    <div class="title-bar mb-4">
+      <div class="title-bar-text text-lg px-2">Confirm Delete</div>
+    </div>
+    <form 
+      id="delete-workout-form"
+      hx-patch="workout/{{ workout.id }}/" 
+      class="mb-4"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    >
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ workout.id }}">
+      <input type="hidden" name="is_active" value="False">
+
+      <div class="modal-action flex justify-end mb-4">
+        <button class="default m-1 p-1" type="button" onclick="comfirm_delete_modal.close()">Cancel</button>
+        <button class="default m-1 p-1" type="submit" form="delete-workout-form">OK</button>
+      </div>
+    </form>
+  </div>
+</dialog>

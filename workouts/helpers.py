@@ -9,7 +9,7 @@ def getWorkouts(user, view_date):
   start_date = dt - timedelta(days=dt.weekday())
   end_date = start_date + timedelta(days=6)
 
-  workouts = Workout.objects.filter(user=user, date__range=[start_date,end_date]).order_by("-date")
+  workouts = Workout.objects.filter(user=user, is_active=True, date__range=[start_date,end_date]).order_by("-date")
   workouts_by_date = []
   for workout in workouts:
     if not workouts_by_date or workout.date != workouts_by_date[-1]["date"]:

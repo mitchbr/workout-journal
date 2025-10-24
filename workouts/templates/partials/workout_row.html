@@ -6,25 +6,24 @@
     <div class="bg-gray-400 p-2">
       <table>
         {% for workout in workout_date.workouts %}
-          <li>
-            <a
-              hx-get="{% url 'workouts:workout_modal' workout.id %}"
-              hx-target="#update-workout-container"
-              hx-swap="outerHTML"
-              class="workout-item cursor-pointer"
-              hx-on:htmx:after-request="update_workout_modal.showModal()"
-            >
-              <div class="text-base flex justify-start">
-                <p class="text-base">{{ workout.workout_type.title }}</p>
-              </div>
-                {% for key, value in workout.data.items %}
-                  <p class="text-sm pl-4">
-                    {{ key }}: {{ value }} 
-                  </p>
-                {% endfor %}
-              <p class="text-sm pl-4 ml-4">{{ workout.note }}</p>
-            </a>
-          </li>
+          <a
+            hx-trigger="click"
+            hx-get="{% url 'workouts:workout_modal' workout.id %}"
+            hx-target="#update-workout-container"
+            hx-swap="outerHTML"
+            class="workout-item cursor-pointer"
+            hx-on:htmx:after-request="update_workout_modal.showModal()"
+          >
+            <div class="text-base flex justify-start">
+              <p class="text-base">{{ workout.workout_type.title }}</p>
+            </div>
+              {% for key, value in workout.data.items %}
+                <p class="text-sm pl-4">
+                  {{ key }}: {{ value }} 
+                </p>
+              {% endfor %}
+            <p class="text-sm pl-4 ml-4">{{ workout.note }}</p>
+          </a>
         {% endfor %}
       </table>
     </div>

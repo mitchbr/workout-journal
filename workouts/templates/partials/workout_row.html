@@ -19,8 +19,11 @@
           </div>
           <div>
             <button
-              onclick="update_workout_modal.showModal()"
               class="btn text-lg mx-1 py-1 px-2"
+              hx-get="{% url 'workouts:workout_modal' workout.id %}"
+              hx-target="#update-workout-container"
+              hx-swap="outerHTML"
+              hx-on:htmx:after-request="update_workout_modal.showModal()"
             >
               Edit
             </button>
@@ -29,5 +32,4 @@
       {% endfor %}
     </div>
   </li>
-  <dialog id="update_workout_modal" class="modal window"><div id="update-workout-container">Loading</div></dialog>
 </div>

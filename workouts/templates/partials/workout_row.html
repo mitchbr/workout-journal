@@ -5,30 +5,23 @@
     </div>
     <div class="bg-gray-400 p-2">
       {% for workout in workout_date.workouts %}
-        <div class="flex justify-between">
-          <div class="workout-item cursor-pointer">
-            <div class="text-base flex justify-start">
-              <p class="text-base">{{ workout.workout_type.title }}</p>
-            </div>
-              {% for key, value in workout.data.items %}
-                <p class="text-sm pl-4">
-                  {{ key }}: {{ value }} 
-                </p>
-              {% endfor %}
-            <p class="text-sm pl-4 ml-4">{{ workout.note }}</p>
+        <a
+          class="workout-item cursor-pointer"
+          hx-get="{% url 'workouts:workout_modal' workout.id %}"
+          hx-target="#update-workout-container"
+          hx-swap="outerHTML"
+          hx-on:htmx:after-request="update_workout_modal.showModal()"
+        >
+          <div class="text-base flex justify-start">
+            <p class="text-base">{{ workout.workout_type.title }}</p>
           </div>
-          <div>
-            <button
-              class="btn text-lg mx-1 py-1 px-2"
-              hx-get="{% url 'workouts:workout_modal' workout.id %}"
-              hx-target="#update-workout-container"
-              hx-swap="outerHTML"
-              hx-on:htmx:after-request="update_workout_modal.showModal()"
-            >
-              Edit
-            </button>
-          </div>
-        </div>
+            {% for key, value in workout.data.items %}
+              <p class="text-sm pl-4">
+                {{ key }}: {{ value }} 
+              </p>
+            {% endfor %}
+          <p class="text-sm pl-4 ml-4">{{ workout.note }}</p>
+        </a>
       {% endfor %}
     </div>
   </li>

@@ -1,14 +1,9 @@
 pull:
 	git pull
 
-deploy:
+build:
 	docker-compose up -d --build
-	docker-compose exec web python3 manage.py migrate
-
-quickdeploy:
-	docker-compose up -d --build
-	docker-compose exec web python3 manage.py migrate
+	docker-compose exec app python3 manage.py migrate
 
 
-fulldeploy: pull deploy
-fullquickdeploy: pull quickdeploy
+deploy: pull build

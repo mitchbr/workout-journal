@@ -8,7 +8,6 @@ from .forms import WorkoutForm, WorkoutUpdateForm
 from .helpers import getWorkoutsContext
 from .models import User, Workout, WorkoutType
 
-# Create your views here.
 def index(request):
   default_user = User.objects.filter(username="Mitchell").first()
   if not default_user:

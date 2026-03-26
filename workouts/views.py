@@ -90,8 +90,11 @@ def get_workout_type_fields(request):
     fields = workout_type.fields or []
     processed_fields = []
     for field in fields:
-      field_value = request.GET.get(field) if request.GET.get(field) else ''
-      field_value = previous_workout.data.get(field) if field_value == '' and previous_workout and previous_workout.data and field in previous_workout.data else field_value
+      field_value = ''
+      if request.GET.get(field):
+        field_value = request.GET.get(field)
+      elif previous_workout and previous_workout.data and field in previous_workout.data:
+        field_value = previous_workout.data.get(field)
       processed_fields.append({'title': field, 'datatype': fields[field], 'default_value': field_value})
     return render(request, 'partials/workout_type_field.html', {
         'fields': processed_fields

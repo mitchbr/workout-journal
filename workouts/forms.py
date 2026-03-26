@@ -10,7 +10,8 @@ class WorkoutForm(forms.ModelForm):
     )
     date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'text-base'}),
-        input_formats=['%Y-%m-%d']
+        input_formats=['%Y-%m-%d'],
+        initial=lambda: __import__('django.utils.timezone', fromlist=['now']).now().date()
     )
 
     class Meta:
